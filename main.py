@@ -15,12 +15,8 @@ if('' in s):
         del s[-1]
     i = s.index('')
     del s[i]
-    # Calcula o no. de grupos 0 que faltam
-    f = 8 - len(s)
-    a = s[:i]
-    c = s[i:]
-    b = f * ['0000']
-    s = a + b + c
+    # Calcula o no. de grupos 0 que faltam e coloca no ip
+    s = s[:i] + ((8 - len(s)) * ['0000']) + s[i:]
 
 for i, grupo in enumerate(s):
     s[i] = grupo.zfill(4)
