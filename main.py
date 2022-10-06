@@ -21,4 +21,5 @@ if('' in s):
 for i, grupo in enumerate(s):
     s[i] = grupo.zfill(4)
 
-print(s)
+# String de grupos do ipv6 para números hexadecimais
+h = [hex(int(g, 16)) for g in s]
