@@ -23,3 +23,13 @@ for i, grupo in enumerate(s):
 
 # String de grupos do ipv6 para números hexadecimais
 h = [hex(int(g, 16)) for g in s]
+# Descobrindo o grupo do meu barra
+t_mask = 16
+n_subnets = 10
+bit_subnets = len(bin(n_subnets - 1)[2:])
+# n = tamanho da máscara de saída
+n = t_mask + bit_subnets
+gb = -(n // -16)
+# Descobrindo o bit dentro do grupo
+b = n - (16 * (n // 16))
+print("Divindindo a rede em", 2 ** bit_subnets, "redes /", n)
