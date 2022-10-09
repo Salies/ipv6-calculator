@@ -48,6 +48,13 @@ n = t_mask + bit_subnets
 #gb = -(n // -16)
 # Descobrindo o bit dentro do grupo
 #b = n - (16 * (n // 16))
-print("Divindindo a rede em", 2 ** bit_subnets, "redes /", n)
-print(hex_to_bin(s))
-print(bin_to_hex(hex_to_bin(s)))
+#print("Divindindo a rede em", 2 ** bit_subnets, "redes /", n)
+# Transformado o hexadecimal em número
+s_no = int(s, 16)
+# Fazendo o RightMost e o LeftMost
+r = []
+l = []
+for i in range(n_subnets):
+    m = format(i, f'0{bit_subnets}b')
+    r.append(m)
+    l.append(m[::-1])
