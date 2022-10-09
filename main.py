@@ -4,17 +4,8 @@ from re import compile
 from sys import exit
 from textwrap import wrap
 
-def hex_to_bin(h):
-    b = ""
-    for c in h:
-        b += str(bin(int(c, 16))[2:]).zfill(4)
-    return b  
-
-def bin_to_hex(b):
-    h = ""
-    for g in wrap(b, 4):
-        h += str(hex(int(g, 2))[2:])
-    return h
+def format_ipv6(ip):
+    return ':'.join(wrap(ip, 4)).upper()
 
 r = compile("(?:^|(?<=\s))(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))(?=\s|$)")
 a = input()
@@ -45,16 +36,19 @@ n_subnets = 10
 bit_subnets = len(bin(n_subnets - 1)[2:])
 # n = tamanho da máscara de saída
 n = t_mask + bit_subnets
-#gb = -(n // -16)
-# Descobrindo o bit dentro do grupo
-#b = n - (16 * (n // 16))
-#print("Divindindo a rede em", 2 ** bit_subnets, "redes /", n)
 # Transformado o hexadecimal em número
 s_no = int(s, 16)
 # Fazendo o RightMost e o LeftMost
-r = []
-l = []
+# e armazenando as redes resultantes
+c = "0" * (128 - n)
+offset = lambda a : int(a + c, 2)
+r_res = []
+l_res = []
 for i in range(n_subnets):
-    m = format(i, f'0{bit_subnets}b')
-    r.append(m)
-    l.append(m[::-1])
+    r = format(i, f'0{bit_subnets}b')
+    l = r[::-1]
+    r_res.append(format_ipv6(hex(s_no | offset(r))[2:]))
+    l_res.append(format_ipv6(hex(s_no | offset(l))[2:]))
+
+print(r_res)
+print(l_res)
